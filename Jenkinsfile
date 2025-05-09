@@ -12,15 +12,15 @@ pipeline {
         }
       }
     }
-    stage('Build') {
-      steps {
-        withDockerRegistry([credentialsId: "dockerlogin", url: ""]) {
-          script {
-            app = docker.build("python:3.4-alpine")
-          }
-        }
-      }
-    }
+//    stage('Build') {
+//      steps {
+//        withDockerRegistry([credentialsId: "dockerlogin", url: ""]) {
+//          script {
+//            app = docker.build("python:3.4-alpine")
+//          }
+//        }
+//      }
+//    }
     stage('RunContainerScan') {
       steps {
         withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
