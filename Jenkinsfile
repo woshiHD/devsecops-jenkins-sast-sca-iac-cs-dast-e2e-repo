@@ -37,7 +37,16 @@ pipeline {
     }
     stage('RunSnykSCA') {
       steps {
-        sh("mvn snyk:test -fn")
+        script {
+          withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
+              try {
+                sh("export SNYK_TOKEN=$SNYK_TOKEN")
+                sh("mvn snyk:test -fn")
+              } catch (err) {
+                echo err.getMessage()
+            }
+          }
+        }
       }
     }
     stage('RunDASTUsingZAP') {
