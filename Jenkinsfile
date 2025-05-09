@@ -49,7 +49,7 @@ pipeline {
 
     stage('checkov') {
       steps {
-        sh("checkov -s -f main.tf")
+        sh("/var/jenkins_home/.local/bin/checkov -s -f main.tf")
       }
     }
   }
