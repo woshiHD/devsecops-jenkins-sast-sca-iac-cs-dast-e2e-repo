@@ -34,7 +34,7 @@ pipeline {
     }
     stage('RunSnykSCA') {
       steps {
-        bat("mvn snyk:test -fn")
+        sh("mvn snyk:test -fn")
       }
     }
     stage('RunDASTUsingZAP') {
