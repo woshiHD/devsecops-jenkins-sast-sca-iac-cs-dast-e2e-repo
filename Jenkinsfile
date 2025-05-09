@@ -23,22 +23,18 @@ pipeline {
 //    }
     stage('RunContainerScan') {
       steps {
-        withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-          script {
-            try {
-              sh("/var/jenkins_home/snyk-linux container test python:3.4-alpine")
-            } catch (err) {
-              echo err.getMessage()
-            }
+        script {
+          try {
+            sh("/var/jenkins_home/snyk-linux container test python:3.4-alpine")
+          } catch (err) {
+            echo err.getMessage()
           }
         }
       }
     }
     stage('RunSnykSCA') {
       steps {
-        withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
-          bat("mvn snyk:test -fn")
-        }
+        bat("mvn snyk:test -fn")
       }
     }
     stage('RunDASTUsingZAP') {
