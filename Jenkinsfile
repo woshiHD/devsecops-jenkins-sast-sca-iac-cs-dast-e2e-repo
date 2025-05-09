@@ -24,10 +24,13 @@ pipeline {
     stage('RunContainerScan') {
       steps {
         script {
-          try {
-            sh("/var/jenkins_home/snyk-linux container test python:3.4-alpine")
-          } catch (err) {
-            echo err.getMessage()
+          withCredentials([string(credentialsId: 'SNYK_TOKEN', variable: 'SNYK_TOKEN')]) {
+              try {
+                sh("export SNYK_TOKEN=$SNYK_TOKEN")
+                sh("/var/jenkins_home/snyk-linux container test python:3.4-alpine")
+              } catch (err) {
+                echo err.getMessage()
+            }
           }
         }
       }
